@@ -174,7 +174,7 @@ if __name__ == "__main__":
     # download the data from CIFAR10
     cifar_dataset = 10  # CIFAR100 or 100
     batch_size = 200
-    lr_start = 1e-5  # start learning rate
+    lr_start = 1e-2  # start learning rate
 
     # Data
     trainloader, testloader, num_batches = dataset(cifar_dataset, batch_size)
