@@ -96,8 +96,6 @@ def test(epoch):
 
     with torch.no_grad():
         for batch_idx, (inputs, targets) in enumerate(testloader):
-            if batch_idx > samples:
-                break
 
             inputs, targets = inputs.to(device), targets.to(device)
             outputs = net(inputs)
