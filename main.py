@@ -17,6 +17,8 @@ import torchvision.transforms as transforms
 from resnet import ResNet, BasicBlock, Bottleneck, ResNet18
 from backtracking import LRFinder, change_lr
 
+from utils import *
+
 
 def download_data():
     """Download the CIFAR10 dataset"""
@@ -80,6 +82,9 @@ def train(epoch, optimizer, samples=100):
         acc = 100.*correct/total
         loss_avg = train_loss/(batch_idx+1)
 
+        progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)| LR: %.7f'
+                     % (loss_avg, acc, correct, total, optimizer.param_groups[0]['lr']))
+
     print(f'Finnished 1 epoch! Loss: {loss_avg:.4f}, Acc: {acc:.4f}')
 
 
@@ -105,12 +110,15 @@ def test(epoch, optimizer, samples=100):
             acc = 100.*correct/total
             loss_avg = test_loss/(batch_idx + 1)
 
+            progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
+                         % (loss_avg, 100.*correct/total, correct, total))
+
         print(
             f'Finished testing!  Loss: {loss_avg:.4f}, Acc: {acc:.4f}, Num. samples: {samples}')
 
 
 def run_AdaGrad(lr_start=0.1, samples=200):
-    """Runs the model with the AdaGrad optimizer. 
+    """Runs the model with the AdaGrad optimizer.
 
     Args:
         lr_start (float, optional): The initial learning rate. Defaults to 0.1.
@@ -152,7 +160,13 @@ def run_backtracking(lr_start=0.1, samples=200, device_='cpu'):
 if __name__ == "__main__":
 
     # download the data from CIFAR10
-    trainloader, testloader = download_data()
+    cifar_dataset = 10  # CIFAR100 or 100
+    batch_size = 4
+    lr_start = 1e-5  # start learning rate
+
+    # Data
+    trainloader, testloader, num_batches = dataset(cifar_dataset, batch_size)
+    num_classes = cifar_dataset
 
     # initialize the model
 
