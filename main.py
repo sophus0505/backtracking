@@ -8,7 +8,7 @@ import torchvision
 import torch.nn as nn
 import torch.nn.functional as F
 
-import torch.backends.cudnn as
+import torch.backends.cudnn as cudnn
 
 import torch.optim as optim
 
