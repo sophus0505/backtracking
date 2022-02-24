@@ -8,6 +8,8 @@ import torchvision
 import torch.nn as nn
 import torch.nn.functional as F
 
+import torch.backends.cudnn as
+
 import torch.optim as optim
 
 import torchvision.transforms as transforms
