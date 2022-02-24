@@ -56,7 +56,7 @@ def download_data():
     return trainloader, testloader
 
 
-def train(epoch, optimizer, samples=100):
+def train(epoch):
     global best_loss, loss_avg, history, patient_test, patient_train, patient
     train_loss = correct = total = 0
     pation = min([patient_test, patient_train])
@@ -65,8 +65,6 @@ def train(epoch, optimizer, samples=100):
 
     net.train()
     for batch_idx, (inputs, targets) in enumerate(trainloader):
-        if batch_idx > samples:
-            break
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
         outputs = net(inputs)
@@ -221,7 +219,7 @@ if __name__ == "__main__":
     all_history = {}
     for epoch in range(0, 10):
         run_AdaGrad(samples=20_000)
-        train(epoch, optimizer, sample=20_000)
+        train(epoch)
         all_history[epoch] = history
 
     # Run backtracking GD
