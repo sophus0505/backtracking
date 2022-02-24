@@ -216,7 +216,8 @@ if __name__ == "__main__":
     history = {}
     history['lr'] = []
     history['acc_train'] = []
-    history['acc_valid'] = []
+    history['loss_train'] = []
+
     # run AdaGrad for 10 epochs
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
     all_history = {}
