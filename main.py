@@ -207,4 +207,4 @@ if __name__ == "__main__":
     # run_AdaGrad()
 
     # Run backtracking GD
-    run_backtracking(device_=device)
+    run_backtracking(samples=20_000, device_=device)
