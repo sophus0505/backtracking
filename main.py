@@ -127,10 +127,7 @@ def run_AdaGrad(lr_start=0.1, samples=200):
 
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
 
-    start1 = time.time()
     train(1, optimizer, samples)
-    end1 = time.time()
-    time1 = end1 - start1
 
     test(1, optimizer)
 
@@ -148,11 +145,7 @@ def run_backtracking(lr_start=0.1, samples=200, device_='cpu'):
     lr_finder_BT = LRFinder(net, optimizer_BT, criterion, device=device_)
     optimizer = optimizer_BT
 
-    start2 = time.time()
     train(1, optimizer, samples)
-    end2 = time.time()
-    time2 = end2 - start2
-    print(f'\nTime taken to train model: ~ {time2:.0f} s.')
 
     test(1, optimizer)
 
@@ -161,7 +154,7 @@ if __name__ == "__main__":
 
     # download the data from CIFAR10
     cifar_dataset = 10  # CIFAR100 or 100
-    batch_size = 10
+    batch_size = 100
     lr_start = 1e-5  # start learning rate
 
     # Data
@@ -207,4 +200,4 @@ if __name__ == "__main__":
     # run_AdaGrad(samples=20_000)
 
     # Run backtracking GD
-    run_backtracking(lr_start=0.01, samples=20_000, device_=device)
+    run_backtracking(lr_start=0.1, samples=20_000, device_=device)
