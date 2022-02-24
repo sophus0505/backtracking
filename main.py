@@ -212,9 +212,19 @@ if __name__ == "__main__":
     criterion = nn.CrossEntropyLoss()
 
     # run AdaGrad for 10 epochs
-    optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
+    # optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
+
+    BT = 1  # using backtracking or not
+    lr_justified = True
+    alpha = 1e-4
+    beta = 0.5
+    num_iter = 20
+
+    optimizer_BT = optim.SGD(net.parameters(), lr=lr_start)
+    lr_finder_BT = LRFinder(net, optimizer_BT, criterion, device=device)
     for epoch in range(0, 10):
-        train(epoch)
+        lr_finder_BT.backtrack(trainloader, alpha=alpha, beta=beta,
+                               num_iter=num_iter, lr_justified=lr_justified)
 
     print(history)
 
