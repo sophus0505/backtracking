@@ -107,7 +107,7 @@ def test(epoch, optimizer, samples=100):
             f'Finished testing!  Loss: {loss_avg:.4f}, Acc: {acc:.4f}, Num. samples: {samples}')
 
 
-def run_AdaGrad(lr_start=0.1, samples=200):
+def run_AdaGrad(lr_start=0.1, samples=200, device='cpu'):
     """Runs the model with the AdaGrad optimizer. 
 
     Args:
@@ -127,7 +127,7 @@ def run_AdaGrad(lr_start=0.1, samples=200):
     print(f'\nTime taken to train model: ~ {time1:.0f} s.')
 
 
-def run_backtracking(lr_start=0.1, samples=200):
+def run_backtracking(lr_start=0.1, samples=200, device='cpu'):
     """Runs the model with the two-way backtracking optimizer.
 
     Args:
@@ -135,7 +135,7 @@ def run_backtracking(lr_start=0.1, samples=200):
         samples (int, optional): The number of iterations. Defaults to 200.
     """
     optimizer_BT = optim.SGD(net.parameters(), lr=lr_start)
-    lr_finder_BT = LRFinder(net, optimizer_BT, criterion, device="cpu")
+    lr_finder_BT = LRFinder(net, optimizer_BT, criterion, device=device)
     optimizer = optimizer_BT
 
     start2 = time.time()
@@ -174,11 +174,11 @@ if __name__ == "__main__":
     best_acc = 0  # best test accuracy
     best_loss = loss_avg = 1e10  # best (smallest) training loss
 
-    device = 'cpu'
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     criterion = nn.CrossEntropyLoss()
 
     # run AdaGrad
     # run_AdaGrad()
 
     # Run backtracking GD
-    run_backtracking()
+    run_backtracking(device=device)
