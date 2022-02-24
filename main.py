@@ -56,6 +56,10 @@ def download_data():
     return trainloader, testloader
 
 
+history = [[], [], []]
+all_history = []
+
+
 def train(epoch):
     global best_loss, loss_avg, history, patient_test, patient_train, patient
     train_loss = correct = total = 0
@@ -207,11 +211,8 @@ if __name__ == "__main__":
 
     criterion = nn.CrossEntropyLoss()
 
-    history = [[], [], []]
-
     # run AdaGrad for 10 epochs
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
-    all_history = []
     for epoch in range(0, 10):
         run_AdaGrad(samples=20_000)
         train(epoch)
