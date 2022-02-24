@@ -73,8 +73,6 @@ def train(epoch):
 
     net.train()
     for batch_idx, (inputs, targets) in enumerate(trainloader):
-        if batch_idx > 10:
-            break
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
         outputs = net(inputs)
