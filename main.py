@@ -173,8 +173,18 @@ if __name__ == "__main__":
     patient = 0
     best_acc = 0  # best test accuracy
     best_loss = loss_avg = 1e10  # best (smallest) training loss
+    # Run on CUDA
 
+    # CUDA device
+    global device
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+    if device == 'cuda':
+        net = torch.nn.DataParallel(net)
+        cudnn.benchmark = True
+
+    print(device)
+
     criterion = nn.CrossEntropyLoss()
 
     # run AdaGrad
