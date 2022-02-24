@@ -60,8 +60,8 @@ def train(epoch, optimizer, samples=100):
     global best_loss, loss_avg, history, patient_test, patient_train, patient
     train_loss = correct = total = 0
     pation = min([patient_test, patient_train])
-    print(
-        f'Training started, using optimizer {type (optimizer).__name__} for {samples} iterations.\n')
+    # print(
+    #     f'Training started, using optimizer {type (optimizer).__name__} for {samples} iterations.\n')
 
     net.train()
     for batch_idx, (inputs, targets) in enumerate(trainloader):
@@ -207,4 +207,4 @@ if __name__ == "__main__":
     # run_AdaGrad(samples=20_000)
 
     # Run backtracking GD
-    run_backtracking(lr_start=1, samples=20_000, device_=device)
+    run_backtracking(lr_start=0.01, samples=20_000, device_=device)
