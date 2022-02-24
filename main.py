@@ -154,12 +154,19 @@ if __name__ == "__main__":
 
     # download the data from CIFAR10
     cifar_dataset = 10  # CIFAR100 or 100
-    batch_size = 100
+    batch_size = 200
     lr_start = 1e-5  # start learning rate
 
     # Data
     trainloader, testloader, num_batches = dataset(cifar_dataset, batch_size)
     num_classes = cifar_dataset
+
+    # Backtracking hyper-parameters
+    BT = 1  # using backtracking or not
+    lr_justified = True
+    alpha = 1e-4
+    beta = 0.5
+    num_iter = 20
 
     # CUDA device
     global device
@@ -185,8 +192,6 @@ if __name__ == "__main__":
           'numbers of Layers:', len(list(net.parameters())))
 
     # Train and test the models
-
-    lr_start = 0.1
 
     patient_train = 0
     patient_test = 0
