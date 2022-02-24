@@ -69,6 +69,8 @@ def train(epoch):
 
     net.train()
     for batch_idx, (inputs, targets) in enumerate(trainloader):
+        if batch_idx > 10:
+            break
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
         outputs = net(inputs)
@@ -214,6 +216,7 @@ if __name__ == "__main__":
     # run AdaGrad for 10 epochs
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
     for epoch in range(0, 10):
+        print("history  :  ", history)
         run_AdaGrad(samples=20_000)
         train(epoch)
         all_history.append(history)
