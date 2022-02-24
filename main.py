@@ -134,8 +134,6 @@ def run_AdaGrad(lr_start=0.1, samples=200):
 
     test(1, optimizer)
 
-    print(f'\nTime taken to train model: ~ {time1:.0f} s.')
-
 
 def run_backtracking(lr_start=0.1, samples=200, device_='cpu'):
     """Runs the model with the two-way backtracking optimizer.
