@@ -226,8 +226,6 @@ if __name__ == "__main__":
     for epoch in range(0, 10):
         lr_finder_BT.backtrack(trainloader, alpha=alpha, beta=beta,
                                num_iter=num_iter, lr_justified=lr_justified)
-        change_lr(optimizer, lr_finder_BT.lr_current)
-
         train(epoch)
 
     print(history)
