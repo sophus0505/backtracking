@@ -85,7 +85,7 @@ def train(epoch, optimizer, samples=100):
         progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)| LR: %.7f'
                      % (loss_avg, acc, correct, total, optimizer.param_groups[0]['lr']))
 
-    print(f'Finnished 1 epoch! Loss: {loss_avg:.4f}, Acc: {acc:.4f}')
+    # print(f'Finnished 1 epoch! Loss: {loss_avg:.4f}, Acc: {acc:.4f}')
 
 
 def test(epoch, optimizer, samples=100):
@@ -113,8 +113,8 @@ def test(epoch, optimizer, samples=100):
             progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
                          % (loss_avg, 100.*correct/total, correct, total))
 
-        print(
-            f'Finished testing!  Loss: {loss_avg:.4f}, Acc: {acc:.4f}, Num. samples: {samples}')
+        # print(
+        #     f'Finished testing!  Loss: {loss_avg:.4f}, Acc: {acc:.4f}, Num. samples: {samples}')
 
 
 def run_AdaGrad(lr_start=0.1, samples=200):
@@ -204,7 +204,7 @@ if __name__ == "__main__":
     criterion = nn.CrossEntropyLoss()
 
     # run AdaGrad
-    run_AdaGrad(samples=20_000)
+    # run_AdaGrad(samples=20_000)
 
     # Run backtracking GD
-    run_backtracking(samples=20_000, device_=device)
+    run_backtracking(lr_start=1, samples=20_000, device_=device)
