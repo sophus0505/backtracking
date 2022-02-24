@@ -221,6 +221,7 @@ if __name__ == "__main__":
     num_iter = 20
 
     optimizer_BT = optim.SGD(net.parameters(), lr=lr_start)
+    lr_finder_BT = LRFinder(net, optimizer_BT, criterion, device=device)
 
     for epoch in range(0, 10):
         lr_finder_BT.backtrack(trainloader, alpha=alpha, beta=beta,
@@ -230,5 +231,6 @@ if __name__ == "__main__":
         train(epoch)
 
     print(history)
+
     # Run backtracking GD
     # run_backtracking(lr_start=0.1, samples=20_000, device_=device)
