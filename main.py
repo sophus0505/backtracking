@@ -217,7 +217,7 @@ if __name__ == "__main__":
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
     for epoch in range(0, 10):
         print("history  :  ", history)
-        run_AdaGrad(samples=20_000)
+
         train(epoch)
         all_history.append(history)
 
