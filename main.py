@@ -213,6 +213,10 @@ if __name__ == "__main__":
 
     criterion = nn.CrossEntropyLoss()
 
+    history = {}
+    history['lr'] = []
+    history['acc_train'] = []
+    history['acc_valid'] = []
     # run AdaGrad for 10 epochs
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
     all_history = {}
