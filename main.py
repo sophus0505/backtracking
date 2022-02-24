@@ -141,13 +141,30 @@ def run_backtracking(lr_start=0.1, samples=200, device_='cpu'):
         lr_start (float, optional): The initial learning rate. Defaults to 0.1.
         samples (int, optional): The number of iterations. Defaults to 200.
     """
+
+    # Backtracking hyper-parameters
+    BT = 1  # using backtracking or not
+    lr_justified = True
+    alpha = 1e-4
+    beta = 0.5
+    num_iter = 20
+
     optimizer_BT = optim.SGD(net.parameters(), lr=lr_start)
     lr_finder_BT = LRFinder(net, optimizer_BT, criterion, device=device_)
     optimizer = optimizer_BT
 
-    train(1, optimizer, samples)
+    # train(1, optimizer, samples)
 
-    test(1, optimizer)
+    # test(1, optimizer)
+    optimizer_BT = optim.SGD(net.parameters(), lr=lr_start)
+    print('Start learning rate:', optimizer_BT.param_groups[0]['lr'])
+    lr_finder_BT = LRFinder(net, optimizer_BT, criterion, device="cuda")
+
+    print("Using backtrack with", optimizer_BT.__class__.__name__,
+          ", alpha =", alpha, ', beta =', beta)
+    lr_finder_BT.backtrack(trainloader, alpha=alpha, beta=beta,
+                           num_iter=num_iter, lr_justified=lr_justified)
+    lr_full[batch_size][lr_start] = lr_finder_BT.lr_BT
 
 
 if __name__ == "__main__":
@@ -160,13 +177,6 @@ if __name__ == "__main__":
     # Data
     trainloader, testloader, num_batches = dataset(cifar_dataset, batch_size)
     num_classes = cifar_dataset
-
-    # Backtracking hyper-parameters
-    BT = 1  # using backtracking or not
-    lr_justified = True
-    alpha = 1e-4
-    beta = 0.5
-    num_iter = 20
 
     # CUDA device
     global device
