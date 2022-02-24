@@ -109,7 +109,7 @@ def test(epoch, optimizer, samples=100):
             f'Finished testing!  Loss: {loss_avg:.4f}, Acc: {acc:.4f}, Num. samples: {samples}')
 
 
-def run_AdaGrad(lr_start=0.1, samples=200, device='cpu'):
+def run_AdaGrad(lr_start=0.1, samples=200):
     """Runs the model with the AdaGrad optimizer. 
 
     Args:
@@ -129,7 +129,7 @@ def run_AdaGrad(lr_start=0.1, samples=200, device='cpu'):
     print(f'\nTime taken to train model: ~ {time1:.0f} s.')
 
 
-def run_backtracking(lr_start=0.1, samples=200, device='cpu'):
+def run_backtracking(lr_start=0.1, samples=200, device_='cpu'):
     """Runs the model with the two-way backtracking optimizer.
 
     Args:
@@ -137,7 +137,7 @@ def run_backtracking(lr_start=0.1, samples=200, device='cpu'):
         samples (int, optional): The number of iterations. Defaults to 200.
     """
     optimizer_BT = optim.SGD(net.parameters(), lr=lr_start)
-    lr_finder_BT = LRFinder(net, optimizer_BT, criterion, device=device)
+    lr_finder_BT = LRFinder(net, optimizer_BT, criterion, device=device_)
     optimizer = optimizer_BT
 
     start2 = time.time()
@@ -179,7 +179,7 @@ if __name__ == "__main__":
 
     # CUDA device
     global device
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
     if device == 'cuda':
         net = torch.nn.DataParallel(net)
@@ -193,4 +193,4 @@ if __name__ == "__main__":
     # run_AdaGrad()
 
     # Run backtracking GD
-    run_backtracking(device=device)
+    run_backtracking(device_=device)
