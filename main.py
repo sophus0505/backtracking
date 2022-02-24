@@ -56,7 +56,11 @@ def download_data():
     return trainloader, testloader
 
 
-history = [[], [], []]
+history = {}
+history['acc_train'] = []
+history['loss_train'] = []
+history['lr'] = []
+
 all_history = []
 
 
@@ -89,14 +93,13 @@ def train(epoch):
         progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)| LR: %.7f'
                      % (loss_avg, acc, correct, total, optimizer.param_groups[0]['lr']))
 
-    history[0].append(acc)
-    history[1].append(loss_avg)
-    history[2].append(optimizer.param_groups[0]['lr'])
+    history['acc_train'].append(acc)
+    history['loss_train'].append(loss_avg)
+    history['lr'].append(optimizer.param_groups[0]['lr'])
 
 
 def test(epoch):
     global history, patient_train, patient_test, best_acc
-    history = {}
     net.eval()
     test_loss, correct, total = 0, 0, 0
 
@@ -117,9 +120,6 @@ def test(epoch):
 
             progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
                          % (loss_avg, 100.*correct/total, correct, total))
-
-        # print(
-        #     f'Finished testing!  Loss: {loss_avg:.4f}, Acc: {acc:.4f}, Num. samples: {samples}')
 
 
 def run_AdaGrad(lr_start=0.1, samples=200):
@@ -216,10 +216,9 @@ if __name__ == "__main__":
     # run AdaGrad for 10 epochs
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
     for epoch in range(0, 10):
-        print("history  :  ", history)
-
         train(epoch)
-        all_history.append(history)
+
+    print(history)
 
     # Run backtracking GD
     # run_backtracking(lr_start=0.1, samples=20_000, device_=device)
