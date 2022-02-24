@@ -85,7 +85,9 @@ def train(epoch, optimizer, samples=100):
         progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)| LR: %.7f'
                      % (loss_avg, acc, correct, total, optimizer.param_groups[0]['lr']))
 
-    # print(f'Finnished 1 epoch! Loss: {loss_avg:.4f}, Acc: {acc:.4f}')
+    history['acc_train'].append(acc)
+    history['loss_train'].append(loss_avg)
+    history['lr'].append(optimizer.param_groups[0]['lr'])
 
 
 def test(epoch, optimizer, samples=100):
@@ -164,7 +166,6 @@ def run_backtracking(lr_start=0.1, samples=200, device_='cpu'):
           ", alpha =", alpha, ', beta =', beta)
     lr_finder_BT.backtrack(trainloader, alpha=alpha, beta=beta,
                            num_iter=num_iter, lr_justified=lr_justified)
-    lr_full[batch_size][lr_start] = lr_finder_BT.lr_BT
 
 
 if __name__ == "__main__":
@@ -211,8 +212,13 @@ if __name__ == "__main__":
 
     criterion = nn.CrossEntropyLoss()
 
-    # run AdaGrad
-    # run_AdaGrad(samples=20_000)
+    # run AdaGrad for 10 epochs
+    optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
+    all_history = {}
+    for epoch in range(0, 10):
+        run_AdaGrad(samples=20_000)
+        train(epoch, optimizer, sample=20_000)
+        all_history[epoch] = history
 
     # Run backtracking GD
-    run_backtracking(lr_start=0.1, samples=20_000, device_=device)
+    # run_backtracking(lr_start=0.1, samples=20_000, device_=device)
