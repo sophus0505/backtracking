@@ -92,6 +92,7 @@ def train(epoch, optimizer, samples=100):
 
 def test(epoch, optimizer, samples=100):
     global history, patient_train, patient_test, best_acc
+    history = {}
     net.eval()
     test_loss, correct, total = 0, 0, 0
 
