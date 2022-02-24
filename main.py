@@ -88,7 +88,7 @@ def train(epoch):
     history['lr'].append(optimizer.param_groups[0]['lr'])
 
 
-def test(epoch, optimizer, samples=100):
+def test(epoch):
     global history, patient_train, patient_test, best_acc
     history = {}
     net.eval()
@@ -128,9 +128,9 @@ def run_AdaGrad(lr_start=0.1, samples=200):
 
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
 
-    train(1, optimizer, samples)
+    train(1)
 
-    test(1, optimizer)
+    test(1)
 
 
 def run_backtracking(lr_start=0.1, samples=200, device_='cpu'):
