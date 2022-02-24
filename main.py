@@ -168,6 +168,16 @@ if __name__ == "__main__":
     trainloader, testloader, num_batches = dataset(cifar_dataset, batch_size)
     num_classes = cifar_dataset
 
+    # CUDA device
+    global device
+    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+
+    if device == 'cuda':
+        net = torch.nn.DataParallel(net)
+        cudnn.benchmark = True
+
+    print(device)
+
     # initialize the model
 
     def count_parameters(model):
@@ -176,6 +186,7 @@ if __name__ == "__main__":
     num_classes = 10  # CIFAR10
     net = ResNet18(num_classes)
     net_name = 'ResNet18 '
+    net = net.to(device)
     print('Model:', net_name)
     print('Number of parameters:', count_parameters(net),
           'numbers of Layers:', len(list(net.parameters())))
@@ -189,17 +200,6 @@ if __name__ == "__main__":
     patient = 0
     best_acc = 0  # best test accuracy
     best_loss = loss_avg = 1e10  # best (smallest) training loss
-    # Run on CUDA
-
-    # CUDA device
-    global device
-    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
-
-    if device == 'cuda':
-        net = torch.nn.DataParallel(net)
-        cudnn.benchmark = True
-
-    print(device)
 
     criterion = nn.CrossEntropyLoss()
 
