@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
     # download the data from CIFAR10
     cifar_dataset = 10  # CIFAR100 or 100
-    batch_size = 4
+    batch_size = 10
     lr_start = 1e-5  # start learning rate
 
     # Data
@@ -204,7 +204,7 @@ if __name__ == "__main__":
     criterion = nn.CrossEntropyLoss()
 
     # run AdaGrad
-    # run_AdaGrad()
+    run_AdaGrad(samples=20_000)
 
     # Run backtracking GD
     run_backtracking(samples=20_000, device_=device)
