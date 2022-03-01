@@ -213,6 +213,7 @@ if __name__ == "__main__":
     criterion = nn.CrossEntropyLoss()
 
     # run AdaGrad for 10 epochs
+    optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
     run_AdaGrad()
 
     # run backtracking for 10 epochs
