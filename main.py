@@ -212,9 +212,14 @@ if __name__ == "__main__":
 
     criterion = nn.CrossEntropyLoss()
 
+    print("###################################")
+    print("Run AdaGrad for 10 epochs")
+    print("###################################")
+
     # run AdaGrad for 10 epochs
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
     run_AdaGrad()
+    print("###################################")
 
     # run backtracking for 10 epochs
 
@@ -226,6 +231,23 @@ if __name__ == "__main__":
 
     optimizer = optim.SGD(net.parameters(), lr=lr_start)
     lr_finder_BT = LRFinder(net, optimizer, criterion, device=device)
+
+    num_classes = 10  # CIFAR10
+    net = ResNet18(num_classes)
+    net_name = 'ResNet18 '
+    net = net.to(device)
+
+    patient_train = 0
+    patient_test = 0
+    patient = 0
+    best_acc = 0  # best test accuracy
+    best_loss = loss_avg = 1e10  # best (smallest) training loss
+
+    criterion = nn.CrossEntropyLoss()
+
+    print("###################################")
+    print("Run Backtracking for 10 epochs")
+    print("###################################")
 
     for epoch in range(0, 10):
         lr_finder_BT.backtrack(trainloader, alpha=alpha, beta=beta,
