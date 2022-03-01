@@ -120,7 +120,7 @@ def test(epoch):
                          % (loss_avg, 100.*correct/total, correct, total))
 
 
-def run_AdaGrad(lr_start=0.1, samples=200):
+def run_AdaGrad(lr_start=0.1, epochs=10, samples=200):
     """Runs the model with the AdaGrad optimizer.
 
     Args:
@@ -130,7 +130,8 @@ def run_AdaGrad(lr_start=0.1, samples=200):
 
     optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
 
-    train(1)
+    for epoch in range(epochs):
+        train(epoch)
 
     test(1)
 
@@ -212,7 +213,9 @@ if __name__ == "__main__":
     criterion = nn.CrossEntropyLoss()
 
     # run AdaGrad for 10 epochs
-    # optimizer = optim.Adagrad(net.parameters(), lr=lr_start)
+    run_AdaGrad()
+
+    # run backtracking for 10 epochs
 
     BT = 1  # using backtracking or not
     lr_justified = True
